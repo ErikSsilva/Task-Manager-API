@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "./generated/prisma"
 }
 
 datasource db {
@@ -73,13 +73,13 @@ model Task {
   description String?      @db.Text
   status      taskStatus   @default(PENDING)
   priority    taskPriority @default(MEDIUM)
-  assignedTo  String       @map("assigned_to")
+  assignedTo  String?      @map("assigned_to")
   teamId      String       @map("team_id")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt @map("updated_at")
 
-  user User @relation(fields: [assignedTo], references: [id])
-  team Team @relation(fields: [teamId], references: [id])
+  user User? @relation(fields: [assignedTo], references: [id])
+  team Team  @relation(fields: [teamId], references: [id])
 
   taskHistory TaskHistory[]
 
